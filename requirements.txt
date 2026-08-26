@@ -1,0 +1,16 @@
+streamlit
+langchain
+langchain-core
+langchain-community
+langchain-google-genai
+langchain-groq
+langchain-huggingface
+langchain-text-splitters
+langgraph
+chromadb
+faiss-cpu
+pypdf
+pandas
+openpyxl
+python-dotenv
+pydantic
