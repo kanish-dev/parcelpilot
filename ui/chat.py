@@ -29,9 +29,8 @@ if user_role == "Customer":
     account_id = st.sidebar.text_input("Account ID", value="ACC-1001")
     st.sidebar.caption(f"You can only access data for {account_id}.")
 else:
-    # Support agents might have broader access or switch accounts
-    account_id = st.sidebar.text_input("Investigating Account ID", value="ACC-1001")
-    st.sidebar.caption("Support agents can query various accounts.")
+    # Support agents have global access
+    st.sidebar.caption("Support agents have global access to all accounts and policies.")
 
 # Initialize state
 if "messages" not in st.session_state:
