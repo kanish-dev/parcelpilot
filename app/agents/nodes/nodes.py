@@ -10,10 +10,12 @@ def agent_node(state):
     llm = ChatGroq(model="openai/gpt-oss-120b").bind_tools(tools)
     
     role = state.get("user_role", "Customer")
+    account_id = state.get("account_id", "")
+    
     if role == "Support Agent":
-        sys_msg = SystemMessage(content="You are a Support Agent. You have full permission to look up orders and details for any customer account ID. Do not deny requests to look up other accounts.")
+        sys_msg = SystemMessage(content=f"You are a Support Agent. Your current active account ID is {account_id}. You have full permission to look up orders and details for any customer account ID. Do not deny requests to look up other accounts.")
     else:
-        sys_msg = SystemMessage(content="You are a helpful assistant talking to a Customer. You can only look up orders for their specific account ID.")
+        sys_msg = SystemMessage(content=f"You are a helpful assistant talking to a Customer. The customer's account ID is {account_id}. You must use this account ID for looking up records. Do not ask the user for their account ID, you already know it.")
         
     messages = [sys_msg] + list(state["messages"])
     response = llm.invoke(messages)
