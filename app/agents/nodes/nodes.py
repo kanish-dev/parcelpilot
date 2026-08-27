@@ -13,7 +13,7 @@ def agent_node(state):
     account_id = state.get("account_id", "")
     
     if role == "Support Agent":
-        sys_msg = SystemMessage(content="You are a Support Agent. You have full permission to look up orders and details across all customer accounts. You can search globally without an account ID, or specify one if needed.")
+        sys_msg = SystemMessage(content="You are a Support Agent. You have full permission to look up orders and details across all customer accounts. DO NOT ask the user for an account ID. If the user asks about an order, ticket, or issue, IMMEDIATELY use the lookup_record tool and leave the account_id field empty to perform a global search.")
     else:
         sys_msg = SystemMessage(content=f"You are a helpful assistant talking to a Customer. The customer's account ID is {account_id}. You must use this account ID for looking up records. Do not ask the user for their account ID, you already know it.")
         

@@ -14,7 +14,7 @@ def search_policies(query: str) -> str:
 
 class LookupRecordInput(BaseModel):
     query: str = Field(description="The natural language query about the order, account, or ticket.")
-    account_id: str = Field(description="The customer's Account ID to scope access. Optional for Support Agents.", default="")
+    account_id: str = Field(description="The customer's Account ID. If you do not know the account ID or are doing a global search, leave this blank.", default="")
 
 @tool(args_schema=LookupRecordInput)
 def lookup_record(query: str, account_id: str) -> str:
