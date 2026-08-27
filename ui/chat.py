@@ -1,6 +1,6 @@
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+# __import__('pysqlite3')
+# import sys
+# sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 import streamlit as st
 import sys
@@ -37,6 +37,41 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 if "pending_confirmation" not in st.session_state:
     st.session_state.pending_confirmation = None
+
+# Suggested Questions
+st.markdown("### Suggested Questions")
+if user_role == "Customer":
+    questions = [
+        "Where is my package?",
+        "What is your refund policy?",
+        "Can I change the delivery address?"
+    ]
+else:
+    questions = [
+        f"Show me the recent shipments for {account_id if account_id else 'ACC-1001'}",
+        "What is the policy for hazardous materials?",
+        "Escalate ticket TICK-999 about a delayed package"
+    ]
+
+# Display questions as buttons in columns
+cols = st.columns(len(questions))
+for i, q in enumerate(questions):
+    if cols[i].button(q, key=f"q_{i}"):
+        if st.session_state.pending_confirmation:
+            st.error("Please confirm or cancel the pending action first.")
+        else:
+            st.session_state.messages.append(HumanMessage(content=q))
+            with st.spinner("Agent is thinking..."):
+                inputs = {
+                    "messages": st.session_state.messages,
+                    "account_id": account_id,
+                    "user_role": user_role
+                }
+                res = graph.invoke(inputs)
+                st.session_state.messages = res["messages"]
+                if res.get("pending_confirmation"):
+                    st.session_state.pending_confirmation = res["pending_confirmation"]
+                st.rerun()
 
 # Display chat messages
 for msg in st.session_state.messages:

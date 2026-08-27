@@ -14,6 +14,5 @@ pandas
 openpyxl
 python-dotenv
 pydantic
-pysqlite3-binary
 sentence-transformers
 torchvision
